@@ -4,7 +4,7 @@ import {Header} from "./components/header/Header.tsx";
 function App() {
 
     return (
-        <div className='bg-gray-800/60'>
+        <div className='bg-gray-400/50'>
             <header className='h-[10dvh] bg-emerald-700/80 w-3/4 mx-auto rounded-t-2xl'>
                 <Header/>
             </header>
