@@ -6,7 +6,7 @@ type MovieCardProp = {
 }
 
 export const MoviesListCard: FC<MovieCardProp> = ({movie}) => {
-    const {adult, original_title, title, overview, release_date, vote_average, vote_count, backdrop_path, poster_path} = movie;
+    const {adult, original_title, title, overview, release_date, vote_average, vote_count, backdrop_path, poster_path, genre_ids} = movie;
 
     return (
         <div className='border-emerald-700 border-2 rounded-lg'>

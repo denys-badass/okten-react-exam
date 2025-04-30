@@ -5,9 +5,10 @@ import {movieService} from "../../../services/movie.service.ts";
 type InitialMovieType = {
     movies: Record<number, IMovie[]>;
     totalPages: number;
+    isLoading: boolean;
 }
 
-const initialMovieState: InitialMovieType = {movies: {}, totalPages: 0};
+const initialMovieState: InitialMovieType = {movies: {}, totalPages: 0, isLoading: false};
 
 const loadMovies = createAsyncThunk(
     'movieSlice/loadMovies',
@@ -31,9 +32,13 @@ export const movieSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
+            .addCase(loadMovies.pending, (state) => {
+                state.isLoading = true;
+            })
             .addCase(loadMovies.fulfilled, (state, action: PayloadAction<{ page: number, movies: IMovie[] }>) => {
                 const {page, movies} = action.payload;
                 state.movies[page] = movies;
+                state.isLoading = false;
             })
             .addCase(loadTotalPageNum.fulfilled, (state, action: PayloadAction<number>) => {
                 state.totalPages = action.payload;

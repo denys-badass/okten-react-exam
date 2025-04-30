@@ -9,7 +9,7 @@ export const Header = () => {
                 className='bg-orange-500/80 p-2 rounded-2xl ml-1 font-bold'>hub</span></h3></Link>
             <nav>
                 <ul className='flex gap-8'>
-                    <li className=''><Link to={''}>Movie</Link></li>
+                    <li className=''><Link to={'movies'}>Movie</Link></li>
                     <li className=''><Link to={''}>Category</Link></li>
                 </ul>
             </nav>
