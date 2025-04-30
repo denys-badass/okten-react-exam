@@ -19,7 +19,7 @@ export const MoviesList = () => {
     }, [dispatch, currentPage]);
 
     return (
-        <div className='grid grid-cols-3 gap-4 p-8'>
+        <div className='grid grid-cols-4 gap-4 py-8 w-3/4 mx-auto'>
             {movies[currentPage]?.map(movie => <MoviesListCard key={movie.id} movie={movie}/>)}
         </div>
     );
