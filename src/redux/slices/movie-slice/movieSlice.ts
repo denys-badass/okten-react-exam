@@ -1,20 +1,26 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IMovie} from "../../../models/IMovie.ts";
 import {movieService} from "../../../services/movie.service.ts";
+import {IMovieResponse} from "../../../models/IMovieResponse.ts";
 
 type InitialMovieType = {
-    movies: Record<number, IMovie[]>;
-    totalPages: number;
+    moviesData: Record<string, IMovieResponse>;
     isLoading: boolean;
 }
 
-const initialMovieState: InitialMovieType = {movies: {}, totalPages: 0, isLoading: false};
+type ParamsType = {
+    page: string;
+    sortBy?: string;
+    search?: string;
+}
+
+const initialMovieState: InitialMovieType = {moviesData: {}, isLoading: false};
 
 const loadMovies = createAsyncThunk(
     'movieSlice/loadMovies',
-    async (page: number, thunkAPI) => {
-        const movies = await movieService.getMovies(page);
-        return thunkAPI.fulfillWithValue({page: page, movies: movies});
+    async ({page, sortBy}: ParamsType , thunkAPI) => {
+        const movies = await movieService.getMovies(page, sortBy);
+        return thunkAPI.fulfillWithValue({key: page+sortBy, movies: movies});
     }
 );
 
@@ -35,9 +41,9 @@ export const movieSlice = createSlice({
             .addCase(loadMovies.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(loadMovies.fulfilled, (state, action: PayloadAction<{ page: number, movies: IMovie[] }>) => {
-                const {page, movies} = action.payload;
-                state.movies[page] = movies;
+            .addCase(loadMovies.fulfilled, (state, action: PayloadAction<{ key: string, movies: IMovie[] }>) => {
+                const {key, movies} = action.payload;
+                state.movies[key] = movies;
                 state.isLoading = false;
             })
             .addCase(loadTotalPageNum.fulfilled, (state, action: PayloadAction<number>) => {
