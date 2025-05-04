@@ -1,27 +1,17 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {movieService} from "../../../services/movie.service.ts";
+import {createSlice} from "@reduxjs/toolkit";
 import {IMovieResponse} from "../../../models/IMovieResponse.ts";
 import {IMovieParams} from "../../../models/IMovieParams.ts";
-import {createMovieThunk} from "../../thunks/createMovieThunk.ts";
+import {handleFulfilledMovies, setPending} from "./helpers/helpers.ts";
+import {loadMovies, loadSearchMovies} from "./thunks/loadThunks.ts";
 
-type InitialMovieType = {
+export type InitialMovieType = {
     moviesData: Record<string, IMovieResponse>;
     params: IMovieParams;
     isLoading: boolean;
+    keyHistory: string[];
 }
 
-const initialMovieState: InitialMovieType = {moviesData: {},params: {page: '1'}, isLoading: false};
-
-const loadMovies = createMovieThunk(
-    'movieSlice/loadMovies',
-    movieService.getMovies,
-)
-
-const loadSearchMovies = createMovieThunk(
-    'movieSlice/loadSearchMovies',
-    movieService.getSearchResults,
-)
-
+const initialMovieState: InitialMovieType = {moviesData: {},params: {page: '1'}, isLoading: false, keyHistory: []};
 
 export const movieSlice = createSlice({
     name: 'movieSlice',
@@ -29,23 +19,10 @@ export const movieSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(loadMovies.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(loadMovies.fulfilled, (state, action: PayloadAction<{ key: string, data: IMovieResponse }>) => {
-                const {key, data} = action.payload;
-                state.moviesData[key] = data;
-                state.isLoading = false;
-            })
-            .addCase(loadSearchMovies.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(loadSearchMovies.fulfilled, (state, action: PayloadAction<{key: string, data: IMovieResponse}>) => {
-                const {key, data} = action.payload;
-                state.moviesData[key] = data;
-                state.isLoading = false;
-            })
-
+            .addCase(loadMovies.pending, setPending)
+            .addCase(loadMovies.fulfilled, handleFulfilledMovies)
+            .addCase(loadSearchMovies.pending, setPending)
+            .addCase(loadSearchMovies.fulfilled, handleFulfilledMovies)
     }
 });
 

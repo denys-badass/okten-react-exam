@@ -1,5 +1,5 @@
-import {IMovieParams} from "../../models/IMovieParams.ts";
-import {IMovieResponse} from "../../models/IMovieResponse.ts";
+import {IMovieParams} from "../../../../models/IMovieParams.ts";
+import {IMovieResponse} from "../../../../models/IMovieResponse.ts";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
 export const createMovieThunk = (
