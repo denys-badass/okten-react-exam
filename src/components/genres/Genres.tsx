@@ -8,7 +8,7 @@ type GenresProps = {
 export const Genres: FC<GenresProps> = ({genres}) => {
 
     return (
-        <div className='flex flex-wrap gap-2'>
+        <div className='flex flex-wrap gap-2 p-2'>
             {genres?.map((genre, index) => <Genre key={index} genreId={genre}/>)}
         </div>
     );

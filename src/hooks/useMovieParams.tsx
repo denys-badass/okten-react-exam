@@ -7,7 +7,7 @@ export const useMovieParams = (): IMovieParams => {
         page: query.get('page') || '1',
         sort_by: query.get('sort_by') || '',
         query: query.get('query') || '',
-        genre: query.get('genre') || '',
+        with_genres: query.get('with_genres') || '',
     };
     const filteredParams: IMovieParams = {page: params.page};
 
