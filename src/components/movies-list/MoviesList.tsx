@@ -9,24 +9,24 @@ import {MovieInfo} from "../movie-info/MovieInfo.tsx";
 import {Pagination} from "../pagination/Pagination.tsx";
 import {useAppStateKey} from "../../hooks/useAppStateKey.tsx";
 import {IMovieParams} from "../../models/IMovieParams.ts";
-import {SortBar} from "../sort-bar/SortBar.tsx";
-import {PageIndicator} from "../page-indicator/PageIndicator.tsx";
+import {MoviesListHeader} from "./MoviesListHeader.tsx";
 
 type MoviesListProps = {
     params: IMovieParams;
-    action: typeof movieActions
+    action: typeof movieActions.loadMovies | typeof movieActions.loadSearchMovies;
+    title: string;
 }
 
-export const MoviesList: FC<MoviesListProps> = ({params}) => {
+export const MoviesList: FC<MoviesListProps> = ({params, action, title}) => {
     const key = useAppStateKey(params);
     const [movieSelected, setMovieSelected] = useState<IMovie | null>(null);
     const moviesData = useAppSelector(state => state.movieStore.moviesData[key]);
     const dispatch = useAppDispatch();
-    const {page} = params
+    const {page, query} = params
 
     useEffect(() => {
         if (!moviesData) {
-            dispatch(movieActions.loadMovies(params));
+            dispatch(action(params));
         }
         setMovieSelected(null);
         const top = window.innerHeight * 0.2;
@@ -35,14 +35,13 @@ export const MoviesList: FC<MoviesListProps> = ({params}) => {
 
     const movies = moviesData?.results || [];
     const totalPages = moviesData?.total_pages || 1;
+    const totalResults = moviesData?.total_results || 0;
 
     return (
         <div>
             {movieSelected && <MovieInfo movie={movieSelected} />}
             <div className='w-3/4 mx-auto py-8 flex flex-col'>
-                <h2 className='w-full flex justify-center text-3xl'>Movies</h2>
-                <SortBar />
-                {totalPages > 1 && <PageIndicator page={+page}/>}
+                <MoviesListHeader title={title} totalPages={totalPages} totalResults={totalResults} page={+page} query={query}/>
                 <Masonry columns={{768: 2, 1024: 3, 1280: 4}} gap={24}>
                     {movies.map(movie => <MoviesListCard key={movie.id} movie={movie} onSelect={() => {
                         setMovieSelected(movie);
@@ -51,7 +50,7 @@ export const MoviesList: FC<MoviesListProps> = ({params}) => {
                     }} />)}
                 </Masonry>
             </div>
-            <Pagination page={+page} totalPages={totalPages}/>
+            {totalPages > 1 && <Pagination page={+page} totalPages={totalPages}/>}
         </div>
     );
 };
