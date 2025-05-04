@@ -1,7 +1,8 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {movieService} from "../../../services/movie.service.ts";
 import {IMovieResponse} from "../../../models/IMovieResponse.ts";
 import {IMovieParams} from "../../../models/IMovieParams.ts";
+import {createMovieThunk} from "../../thunks/createMovieThunk.ts";
 
 type InitialMovieType = {
     moviesData: Record<string, IMovieResponse>;
@@ -11,25 +12,15 @@ type InitialMovieType = {
 
 const initialMovieState: InitialMovieType = {moviesData: {},params: {page: '1'}, isLoading: false};
 
-const loadMovies = createAsyncThunk(
+const loadMovies = createMovieThunk(
     'movieSlice/loadMovies',
-    async (params: IMovieParams , thunkAPI) => {
-        const queryString = new URLSearchParams({...params}).toString();
-        const key = Object.values(params).join('');
-        const data = await movieService.getMovies(queryString);
-        return thunkAPI.fulfillWithValue({key, data});
-    }
-);
+    movieService.getMovies,
+)
 
-const loadSearchMovies = createAsyncThunk(
+const loadSearchMovies = createMovieThunk(
     'movieSlice/loadSearchMovies',
-    async (params: IMovieParams , thunkAPI) => {
-        const queryString = new URLSearchParams({...params}).toString();
-        const key = Object.values(params).join('');
-        const data = await movieService.getSearchResults(queryString);
-        return thunkAPI.fulfillWithValue({key, data});
-    }
-);
+    movieService.getSearchResults,
+)
 
 
 export const movieSlice = createSlice({
