@@ -4,9 +4,10 @@ import {genreService} from "../../../services/genre.service.ts";
 
 type InitialGenreType = {
     genres: Record<number, string>;
+    genreNames: string[];
 }
 
-const initialGenreState: InitialGenreType = {genres: {}};
+const initialGenreState: InitialGenreType = {genres: {}, genreNames: []};
 
 const loadGenres = createAsyncThunk(
     'genreSlice/loadGenres',
@@ -14,7 +15,7 @@ const loadGenres = createAsyncThunk(
         const response = await genreService.getGenres();
         return thunkAPI.fulfillWithValue(response);
     }
-)
+);
 
 export const genreSlice= createSlice({
     name: 'genreSlice',
