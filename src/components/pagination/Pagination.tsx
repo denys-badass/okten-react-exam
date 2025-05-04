@@ -1,20 +1,14 @@
 import {useSearchParams} from "react-router-dom";
-import {useAppSelector} from "../../redux/hooks/useAppSelector.ts";
-import {useAppDispatch} from "../../redux/hooks/useAppDispatch.ts";
-import {useEffect} from "react";
-import {movieActions} from "../../redux/slices/movie-slice/movieSlice.ts";
+import {FC} from "react";
 
-export const Pagination = () => {
-    const [query, setQuery] = useSearchParams({page: '1'});
-    const {totalPages} = useAppSelector(state => state.movieStore);
-    const dispatch = useAppDispatch();
 
-    const page = Number(query.get('page'));
-    const sort = query.get('sort_by') || 'popularity.desc';
+type PaginationProps = {
+    page: number;
+    totalPages: number;
+}
 
-    useEffect(() => {
-        if (totalPages === 0) dispatch(movieActions.loadTotalPageNum());
-    }, [totalPages, dispatch]);
+export const Pagination: FC<PaginationProps> = ({page, totalPages}) => {
+    const [_, setQuery] = useSearchParams();
 
     const handlePrevious = () => {
         if (page - 1 > 0) {

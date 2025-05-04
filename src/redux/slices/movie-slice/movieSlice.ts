@@ -1,36 +1,36 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IMovie} from "../../../models/IMovie.ts";
 import {movieService} from "../../../services/movie.service.ts";
 import {IMovieResponse} from "../../../models/IMovieResponse.ts";
+import {IMovieParams} from "../../../models/IMovieParams.ts";
 
 type InitialMovieType = {
     moviesData: Record<string, IMovieResponse>;
+    params: IMovieParams;
     isLoading: boolean;
 }
 
-type ParamsType = {
-    page: string;
-    sortBy?: string;
-    search?: string;
-}
-
-const initialMovieState: InitialMovieType = {moviesData: {}, isLoading: false};
+const initialMovieState: InitialMovieType = {moviesData: {},params: {page: '1'}, isLoading: false};
 
 const loadMovies = createAsyncThunk(
     'movieSlice/loadMovies',
-    async ({page, sortBy}: ParamsType , thunkAPI) => {
-        const movies = await movieService.getMovies(page, sortBy);
-        return thunkAPI.fulfillWithValue({key: page+sortBy, movies: movies});
+    async (params: IMovieParams , thunkAPI) => {
+        const queryString = new URLSearchParams({...params}).toString();
+        const key = Object.values(params).join('');
+        const data = await movieService.getMovies(queryString);
+        return thunkAPI.fulfillWithValue({key, data});
     }
 );
 
-const loadTotalPageNum = createAsyncThunk(
-    'movieSlice/loadTotalPageNum',
-    async (_, thunkAPI) => {
-        const pages = await movieService.getTotalPages();
-        return thunkAPI.fulfillWithValue(pages)
+const loadSearchMovies = createAsyncThunk(
+    'movieSlice/loadSearchMovies',
+    async (params: IMovieParams , thunkAPI) => {
+        const queryString = new URLSearchParams({...params}).toString();
+        const key = Object.values(params).join('');
+        const data = await movieService.getSearchResults(queryString);
+        return thunkAPI.fulfillWithValue({key, data});
     }
-)
+);
+
 
 export const movieSlice = createSlice({
     name: 'movieSlice',
@@ -41,19 +41,25 @@ export const movieSlice = createSlice({
             .addCase(loadMovies.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(loadMovies.fulfilled, (state, action: PayloadAction<{ key: string, movies: IMovie[] }>) => {
-                const {key, movies} = action.payload;
-                state.movies[key] = movies;
+            .addCase(loadMovies.fulfilled, (state, action: PayloadAction<{ key: string, data: IMovieResponse }>) => {
+                const {key, data} = action.payload;
+                state.moviesData[key] = data;
                 state.isLoading = false;
             })
-            .addCase(loadTotalPageNum.fulfilled, (state, action: PayloadAction<number>) => {
-                state.totalPages = action.payload;
+            .addCase(loadSearchMovies.pending, (state) => {
+                state.isLoading = true;
             })
+            .addCase(loadSearchMovies.fulfilled, (state, action: PayloadAction<{key: string, data: IMovieResponse}>) => {
+                const {key, data} = action.payload;
+                state.moviesData[key] = data;
+                state.isLoading = false;
+            })
+
     }
 });
 
 export const movieActions = {
     ...movieSlice.actions,
     loadMovies,
-    loadTotalPageNum
+    loadSearchMovies,
 }

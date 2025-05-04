@@ -9,7 +9,7 @@ type MovieInfoProps = {
 }
 
 export const MovieInfo:FC<MovieInfoProps> = ({movie}) => {
-    const {backdrop_path,title, original_title, vote_average, vote_count, release_date, overview, genre_ids, poster_path} = movie
+    const {backdrop_path,title, original_title, vote_average, vote_count, release_date, overview, genre_ids} = movie
     const backdropUrl = import.meta.env.VITE_IMAGE_BASE_URL + '/original' + backdrop_path;
     return (
         <div

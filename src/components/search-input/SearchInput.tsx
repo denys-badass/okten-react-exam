@@ -1,11 +1,18 @@
-import {useRef} from "react";
-import {useNavigate} from "react-router-dom";
+import {useEffect, useRef} from "react";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import * as React from "react";
 import {IoSearch} from "react-icons/io5";
 
 export const SearchInput = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
+    const [query] = useSearchParams({query: ''})
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.value = query.get('query') || '';
+        }
+    }, [query]);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && inputRef.current) {
