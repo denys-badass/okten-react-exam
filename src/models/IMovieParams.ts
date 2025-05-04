@@ -1,6 +1,6 @@
 export interface IMovieParams {
     page: string;
-    sortBy?: string;
+    sort_by?: string;
     query?: string;
-    genre?: string;
+    with_genres?: string;
 }

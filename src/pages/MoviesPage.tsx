@@ -11,6 +11,4 @@ export const MoviesPage = () => {
             {isLoading ? <Preloader/> : <MoviesList params={params}/>}
         </>
     );
-
-
 };

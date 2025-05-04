@@ -1,20 +1,12 @@
 import {Link} from "react-router-dom";
 import {SearchInput} from "../search-input/SearchInput.tsx";
 import {IoLogInOutline} from "react-icons/io5";
-import {useAppSelector} from "../../redux/hooks/useAppSelector.ts";
-import {useEffect, useState} from "react";
-import {useAppDispatch} from "../../redux/hooks/useAppDispatch.ts";
-import {genreActions} from "../../redux/slices/genre-slice/genreSlice.ts";
-import {GenreLink} from "../genre-link/GenreLink.tsx";
+import {useState} from "react";
+import {GenresListItems} from "../genres-list-items/GenresListItems.tsx";
 
 export const Header = () => {
-    const {genres} = useAppSelector(state => state.genreStore);
-    const dispatch = useAppDispatch();
     const [showGenres, setShowGenres] = useState<boolean>(false);
 
-    useEffect(() => {
-        if (!genres) dispatch(genreActions.loadGenres());
-    }, [genres, dispatch]);
 
     return (
         <>
@@ -41,7 +33,7 @@ export const Header = () => {
                 onMouseEnter={() => setShowGenres(true)} onMouseLeave={() => setShowGenres(false)}
             >
                 <ul className='grid grid-cols-5 gap-4 w-4/5 mx-auto text-center'>
-                    {Object.entries(genres).map(([key, genre]) => <li key={key} className='hover:text-slate-50'><GenreLink genre={genre}/></li>)}
+                    <GenresListItems/>
                 </ul>
             </div>
         </>

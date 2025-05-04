@@ -14,6 +14,7 @@ import {PageIndicator} from "../page-indicator/PageIndicator.tsx";
 
 type MoviesListProps = {
     params: IMovieParams;
+    action: typeof movieActions
 }
 
 export const MoviesList: FC<MoviesListProps> = ({params}) => {
@@ -21,7 +22,7 @@ export const MoviesList: FC<MoviesListProps> = ({params}) => {
     const [movieSelected, setMovieSelected] = useState<IMovie | null>(null);
     const moviesData = useAppSelector(state => state.movieStore.moviesData[key]);
     const dispatch = useAppDispatch();
-    const {page, genre} = params
+    const {page} = params
 
     useEffect(() => {
         if (!moviesData) {
@@ -39,7 +40,7 @@ export const MoviesList: FC<MoviesListProps> = ({params}) => {
         <div>
             {movieSelected && <MovieInfo movie={movieSelected} />}
             <div className='w-3/4 mx-auto py-8 flex flex-col'>
-                <h2 className='w-full flex justify-center text-3xl'>{genre || 'Movies'}</h2>
+                <h2 className='w-full flex justify-center text-3xl'>Movies</h2>
                 <SortBar />
                 {totalPages > 1 && <PageIndicator page={+page}/>}
                 <Masonry columns={{768: 2, 1024: 3, 1280: 4}} gap={24}>
