@@ -42,7 +42,7 @@ export const MoviesList: FC<MoviesListProps> = ({params, action, title}) => {
             {movieSelected && <MovieInfo movie={movieSelected} />}
             <div className='w-3/4 mx-auto py-8 flex flex-col'>
                 <MoviesListHeader title={title} totalPages={totalPages} totalResults={totalResults} page={+page} query={query}/>
-                <Masonry columns={{768: 2, 1024: 3, 1280: 4}} gap={24}>
+                <Masonry columns={{640: 1, 768: 2, 1024: 3, 1280: 4}} gap={24}>
                     {movies.map(movie => <MoviesListCard key={movie.id} movie={movie} onSelect={() => {
                         setMovieSelected(movie);
                         const top = window.innerHeight * 0.2;

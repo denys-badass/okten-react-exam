@@ -11,6 +11,8 @@ type MovieCardProp = {
 export const MoviesListCard: FC<MovieCardProp> = ({movie, onSelect}) => {
     const {title, release_date, vote_average, backdrop_path, genre_ids} = movie;
 
+    const img_path: string = backdrop_path ? import.meta.env.VITE_IMAGE_BASE_URL + '/w300' + backdrop_path : '../../../public/movie_placeholder_sm.jpg';
+
     return (
         <div className='border-emerald-700 border rounded-t-md relative bg-slate-200/50 cursor-pointer
     transition-transform duration-300 ease-out
@@ -21,7 +23,7 @@ export const MoviesListCard: FC<MovieCardProp> = ({movie, onSelect}) => {
             <div onClick={onSelect}>
                 <img
                 className='w-full rounded-t-md'
-                src={import.meta.env.VITE_IMAGE_BASE_URL + '/w300' + backdrop_path}
+                src={img_path}
                 alt={title}
                 loading='lazy'
             />
