@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IMovieResponse} from "../../../models/IMovieResponse.ts";
 import {IMovieParams} from "../../../models/IMovieParams.ts";
-import {handleFulfilledMovies, setPending} from "./helpers/helpers.ts";
+import {handleFulfilledMovies, removePending, setPending} from "../helpers/helpers.ts";
 import {loadMovies, loadSearchMovies} from "./thunks/loadThunks.ts";
 
 export type InitialMovieType = {
@@ -21,8 +21,10 @@ export const movieSlice = createSlice({
         builder
             .addCase(loadMovies.pending, setPending)
             .addCase(loadMovies.fulfilled, handleFulfilledMovies)
+            .addCase(loadMovies.rejected, removePending)
             .addCase(loadSearchMovies.pending, setPending)
             .addCase(loadSearchMovies.fulfilled, handleFulfilledMovies)
+            .addCase(loadSearchMovies.rejected, removePending)
     }
 });
 

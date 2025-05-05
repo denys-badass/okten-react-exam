@@ -9,13 +9,13 @@ export const GenresListItems = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (!genres) dispatch(genreActions.loadGenres());
+        if (Object.keys(genres).length === 0) dispatch(genreActions.loadGenres());
     }, [genres, dispatch]);
 
     return (
         <>
-            {Object.entries(genres).map(([id, genre]) => <li key={id} className='hover:text-slate-50'><GenreLink
-                genreId={+id} genreName={genre}/></li>)}
+            {Object.entries(genres).map(([id, name]) => <li key={+id} className='rounded-2xl hover:text-emerald-600 hover:bg-slate-50 py-1'><GenreLink
+                genre={{id: +id, name}}/></li>)}
         </>
     );
 };

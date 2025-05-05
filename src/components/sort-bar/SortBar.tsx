@@ -14,7 +14,7 @@ export const SortBar = () => {
 
     return (
         <>
-            <div className='flex items-center w-1/3 gap-4 self-end'>
+            <div className='flex items-center w-1/3 gap-1 self-end text-sm'>
                 <label htmlFor="sort">Sort by:</label>
                 <select
                     name='sort'

@@ -1,15 +1,13 @@
-import {useAppSelector} from "../../redux/hooks/useAppSelector.ts";
-import {useAppDispatch} from "../../redux/hooks/useAppDispatch.ts";
-import {FC, useEffect, useState} from "react";
+import {FC, useState} from "react";
 import {movieActions} from "../../redux/slices/movie-slice/movieSlice.ts";
 import {MoviesListCard} from "../movies-list-card/MoviesListCard.tsx";
 import Masonry from "react-layout-masonry";
 import {IMovie} from "../../models/IMovie.ts";
 import {MovieInfo} from "../movie-info/MovieInfo.tsx";
 import {Pagination} from "../pagination/Pagination.tsx";
-import {useAppStateKey} from "../../hooks/useAppStateKey.tsx";
 import {IMovieParams} from "../../models/IMovieParams.ts";
 import {MoviesListHeader} from "./MoviesListHeader.tsx";
+import {useLoadMovies} from "../../hooks/useLoadMovies.ts";
 
 type MoviesListProps = {
     params: IMovieParams;
@@ -18,24 +16,18 @@ type MoviesListProps = {
 }
 
 export const MoviesList: FC<MoviesListProps> = ({params, action, title}) => {
-    const key = useAppStateKey(params);
     const [movieSelected, setMovieSelected] = useState<IMovie | null>(null);
-    const moviesData = useAppSelector(state => state.movieStore.moviesData[key]);
-    const dispatch = useAppDispatch();
+    const moviesData = useLoadMovies(params, action);
+
     const {page, query} = params
-
-    useEffect(() => {
-        if (!moviesData) {
-            dispatch(action(params));
-        }
-        setMovieSelected(null);
-        const top = window.innerHeight * 0.2;
-        window.scrollTo({top: -top, behavior: "smooth"});
-    }, [dispatch, key, moviesData]);
-
     const movies = moviesData?.results || [];
     const totalPages = moviesData?.total_pages || 1;
     const totalResults = moviesData?.total_results || 0;
+
+    const topScroll = () => {
+        const top = window.innerHeight * 0.2;
+        window.scrollTo({top: -top, behavior: "smooth"});
+    }
 
     return (
         <div>
@@ -45,8 +37,7 @@ export const MoviesList: FC<MoviesListProps> = ({params, action, title}) => {
                 <Masonry columns={{640: 1, 768: 2, 1024: 3, 1280: 4}} gap={24}>
                     {movies.map(movie => <MoviesListCard key={movie.id} movie={movie} onSelect={() => {
                         setMovieSelected(movie);
-                        const top = window.innerHeight * 0.2;
-                        window.scrollTo({top: -top, behavior: "smooth"});
+                        topScroll();
                     }} />)}
                 </Masonry>
             </div>

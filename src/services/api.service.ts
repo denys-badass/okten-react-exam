@@ -1,11 +1,16 @@
 import axios from "axios";
 
-export const axiosInstance = axios.create({
+export const axiosMovieInstance = axios.create({
     baseURL: 'https://api.themoviedb.org/3',
     headers: {'accept': 'application/json'}
 });
 
-axiosInstance.interceptors.request.use(request => {
-    request.headers['Authorization'] = 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZTc0MGY1NzVmZmMyNDQzZDRjZTIzY2I4NTk1M2ZkMCIsIm5iZiI6MTc0NTgzMzY3MC4yNjIsInN1YiI6IjY4MGY0ZWM2NDYwMzU3MWVhZDBmOGI1YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vOkM9zakig0Tx0krPqELgaIZBvfFX99Ykj8hq55MF7c';
+axiosMovieInstance.interceptors.request.use(request => {
+    request.headers['Authorization'] = 'Bearer ' + import.meta.env.VITE_API_TOKEN;
     return request;
-})
+});
+
+export const axiosLoginInstance = axios.create({
+    baseURL: 'https://dummyjson.com',
+    headers: {'Content-Type': 'application/json'}
+});

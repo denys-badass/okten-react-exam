@@ -1,6 +1,7 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IGenre} from "../../../models/IGenre.ts";
-import {genreService} from "../../../services/genre.service.ts";
+
+import {loadGenres} from "./thunks/loadGenres.ts";
 
 type InitialGenreType = {
     genres: Record<number, string>;
@@ -8,14 +9,6 @@ type InitialGenreType = {
 }
 
 const initialGenreState: InitialGenreType = {genres: {}, genreNames: []};
-
-const loadGenres = createAsyncThunk(
-    'genreSlice/loadGenres',
-    async (_,thunkAPI ) => {
-        const response = await genreService.getGenres();
-        return thunkAPI.fulfillWithValue(response);
-    }
-);
 
 export const genreSlice= createSlice({
     name: 'genreSlice',

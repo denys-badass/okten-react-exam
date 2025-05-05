@@ -1,7 +1,11 @@
 import {PayloadAction} from "@reduxjs/toolkit";
-import {IMovieResponse} from "../../../../models/IMovieResponse.ts";
-import {lruCache} from "../../../../utils/lruCache.ts";
-import {InitialMovieType} from "../movieSlice.ts";
+import {IMovieResponse} from "../../../models/IMovieResponse.ts";
+import {lruCache} from "../../../utils/lruCache.ts";
+import {InitialMovieType} from "../movie-slice/movieSlice.ts";
+
+type WithLoading = {
+    isLoading: boolean;
+}
 
 export const handleFulfilledMovies = (
     state: InitialMovieType,
@@ -20,6 +24,10 @@ export const handleFulfilledMovies = (
     state.isLoading = false;
 }
 
-export const setPending = (state: InitialMovieType) => {
+export const setPending = <T extends WithLoading>(state: T) => {
     state.isLoading = true;
+}
+
+export const removePending = <T extends WithLoading>(state: T) => {
+    state.isLoading = false;
 }

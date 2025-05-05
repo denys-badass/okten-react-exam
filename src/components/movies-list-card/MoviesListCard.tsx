@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {IMovie} from "../../models/IMovie.ts";
 import {StarsRating} from "../stars-rating/StarsRating.tsx";
-import {Genres} from "../genres/Genres.tsx";
+import {GenreBadges} from "../genre-badges/GenreBadges.tsx";
 
 type MovieCardProp = {
     movie: IMovie;
@@ -34,9 +34,8 @@ export const MoviesListCard: FC<MovieCardProp> = ({movie, onSelect}) => {
                     <StarsRating rating={vote_average}/>
                 </div>
 
-
             </div>
-            <Genres genres={genre_ids}/>
+            <GenreBadges genres={genre_ids}/>
         </div>
     );
 };

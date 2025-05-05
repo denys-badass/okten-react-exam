@@ -2,7 +2,7 @@ import {FC, useState} from "react";
 import {IMovie} from "../../models/IMovie.ts";
 import {StarsRating} from "../stars-rating/StarsRating.tsx";
 import {FaDisplay} from "react-icons/fa6";
-import {Genres} from "../genres/Genres.tsx";
+import {GenreBadges} from "../genre-badges/GenreBadges.tsx";
 import {PosterPreview} from "../poster-preview/PosterPreview.tsx";
 
 type MovieInfoProps = {
@@ -28,7 +28,7 @@ export const MovieInfo: FC<MovieInfoProps> = ({movie}) => {
                 <div>
                     <h2 className='text-5xl font-medium'>{title}</h2>
                     <p className='italic'>Original title: {original_title}</p>
-                    <Genres genres={genre_ids}/>
+                    <GenreBadges genres={genre_ids}/>
                 </div>
                 <div className='flex items-center w-full justify-between'>
                     <p>Released: {release_date || 'Unknown'}</p>

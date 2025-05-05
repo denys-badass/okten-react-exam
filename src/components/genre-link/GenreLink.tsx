@@ -1,15 +1,16 @@
 import {FC} from "react";
 import {Link} from "react-router-dom";
+import {IGenre} from "../../models/IGenre.ts";
 
 type GenreLinkProps = {
-    genreId: number;
-    genreName: string;
+    genre: IGenre;
 }
 
-export const GenreLink:FC<GenreLinkProps> = ({genreId, genreName}) => {
+export const GenreLink:FC<GenreLinkProps> = ({genre}) => {
+    const {id, name} = genre;
     return (
         <>
-            <Link to={'/genres/' + genreId}>{genreName}</Link>
+            <Link to={'/genre/' + id}>{name}</Link>
         </>
     );
 };
