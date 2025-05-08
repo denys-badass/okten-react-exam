@@ -5,7 +5,7 @@ import {useEffect} from "react";
 import {genreActions} from "../redux/slices/genre-slice/genreSlice.ts";
 
 export const useGenre = (genreId: number): IGenre => {
-    const name = useAppSelector(state => state.genreStore.genres[genreId]);
+    const name = useAppSelector(state => state.genreStore.genresMap[genreId]);
     const dispatch = useAppDispatch();
 
     useEffect(() => {

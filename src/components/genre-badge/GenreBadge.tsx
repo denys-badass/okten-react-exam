@@ -6,7 +6,7 @@ type GenreProps = {
     genreId: number;
 }
 
-export const Genre: FC<GenreProps> = ({genreId}) => {
+export const GenreBadge: FC<GenreProps> = ({genreId}) => {
     const genre = useGenre(genreId)
 
     return (
