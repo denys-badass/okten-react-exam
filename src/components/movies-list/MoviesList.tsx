@@ -26,7 +26,7 @@ export const MoviesList: FC<MoviesListProps> = ({params, action, title}) => {
 
     const topScroll = () => {
         const top = window.innerHeight * 0.2;
-        window.scrollTo({top: -top, behavior: "smooth"});
+        window.scrollTo({top: -top, behavior: 'smooth'});
     }
 
     return (

@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {IMovieResponse} from "../../../models/IMovieResponse.ts";
 import {IMovieParams} from "../../../models/IMovieParams.ts";
 import {handleFulfilledMovies, removePending, setPending} from "../helpers/helpers.ts";
-import {loadMovies, loadSearchMovies} from "./thunks/loadThunks.ts";
+import {loadMovies, loadSearchMovies} from "./thunks/loadMovieThunks.ts";
 
 export type InitialMovieType = {
     moviesData: Record<string, IMovieResponse>;

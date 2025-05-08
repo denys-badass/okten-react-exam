@@ -10,23 +10,21 @@ type MoviesListHeaderProps = {
     query?: string;
 }
 
-export const MoviesListHeader: FC<MoviesListHeaderProps> = ({title, totalPages, totalResults, page, query}) => {
-    if (query) {
-        return (
-            <>
-                <h2 className='w-full flex justify-center text-3xl'>Movies</h2>
-                <h3>Search results for {query}</h3>
-                <p>Found {totalResults}</p>
-                {totalPages > 1 && <PageIndicator page={+page}/>}
-            </>
-        );
-    }
-
+export const MoviesListHeader: FC<MoviesListHeaderProps> = ({ title, totalPages, totalResults, page, query }) => {
     return (
         <>
             <h2 className='w-full flex justify-center text-3xl'>{title}</h2>
-            <SortBar/>
-            {totalPages > 1 && <PageIndicator page={+page}/>}
+
+            {query ? (
+                <>
+                    <h3 className='text-center text-xl'>Search results for <span className='font-semibold'>"{query}"</span></h3>
+                    <p className='text-center text-gray-700 text-sm'>Found {totalResults}</p>
+                </>
+            ) : (
+                <SortBar />
+            )}
+
+            {totalPages > 1 && <PageIndicator page={+page} />}
         </>
     );
 };

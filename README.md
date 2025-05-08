@@ -1,6 +1,6 @@
 # 🎬 MovieHub
 
-**MovieHub** is a student examination project created as part of the **React module at Okten School**. It is a web application for browsing and searching movies using **The Movie Database (TMDb)** API. The project includes responsive design, guest access, user authentication (based on dummy data), and modern frontend tooling.
+**MovieHub** is a student examination project created for the **React module at Okten School**. It is a web application for browsing and searching movies using **The Movie Database (TMDb)** API. The project includes responsive design, guest access, user authentication (based on dummy data), and modern frontend tooling.
 
 ---
 
@@ -63,14 +63,14 @@ This application allows users to:
     ```bash
     npm run dev
 
-4. Visit the app at http://localhost:3000
+4. Visit the app at http://localhost:5173
 
 🔐 Authentication
 
 The app uses a mock login system powered by the endpoint:
 https://dummyjson.com/users
 
-You can log in with:
+For example you can log in with:
 •	Username: emilys
 •	Password: emilyspass
 

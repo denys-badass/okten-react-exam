@@ -1,23 +1,12 @@
 import {FC} from "react";
-import {FaRegStar, FaRegStarHalfStroke, FaStar} from "react-icons/fa6";
+import {getStarsRating} from "./helpers.tsx";
 
 type StarsRatingProp = {
     rating: number;
 }
 
 export const StarsRating:FC<StarsRatingProp> = ({rating}) => {
-    const stars = [];
-    const fiveRating = rating / 2;
-
-    for (let i = 1; i <= 5; i++) {
-        if (fiveRating >= i) {
-            stars.push(<FaStar size={20} key={i}/>)
-        } else if (fiveRating > i - 0.5) {
-            stars.push(<FaRegStarHalfStroke key={i}/> )
-        } else {
-            stars.push(<FaRegStar key={i}/>)
-        }
-    }
+    const stars = getStarsRating(rating);
 
     return (
         <div className='flex'>

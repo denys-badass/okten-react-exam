@@ -1,7 +1,7 @@
+import {useEffect, useMemo, useRef} from 'react';
 import {useAppSelector} from "../redux/hooks/useAppSelector.ts";
 import {useSearchParams} from "react-router-dom";
 import {useMovieParams} from "./useMovieParams.ts";
-import {useEffect} from "react";
 
 export const useLoadingClearParams = (
     pageConfig: {
@@ -12,17 +12,24 @@ export const useLoadingClearParams = (
     const { isLoading } = useAppSelector((state) => state.movieStore);
     const [query, setQuery] = useSearchParams();
     const params = useMovieParams();
+    const stableExtraParams = useMemo(() => pageConfig.extraParams, [pageConfig.extraParams]);
+    const stableClearParams = useMemo(() => pageConfig.clearParams, [pageConfig.clearParams]);
+
+    const prevQueryRef = useRef(query);
 
     useEffect(() => {
-        const newQuery = new URLSearchParams(query);
-        pageConfig.clearParams?.forEach((key) => newQuery.delete(key));
-        if (pageConfig.extraParams) {
-            Object.entries(pageConfig.extraParams).forEach(([key, value]) => {
-                newQuery.set(key, value);
-            });
+        if (prevQueryRef.current !== query) {
+            const newQuery = new URLSearchParams(query);
+            stableClearParams?.forEach((key) => newQuery.delete(key));
+            if (stableExtraParams) {
+                Object.entries(stableExtraParams).forEach(([key, value]) => {
+                    newQuery.set(key, value);
+                });
+            }
+            setQuery(newQuery);
+            prevQueryRef.current = query;
         }
-        setQuery(newQuery);
-    }, [JSON.stringify(pageConfig.extraParams)]);
+    }, [query, setQuery, stableExtraParams, stableClearParams]);
 
-    return {isLoading, params};
+    return { isLoading, params };
 };
