@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {IUserWithTokens} from "../../models/IUserWithTokens.ts";
+import {IUserWithTokens} from "../../../models/IUserWithTokens.ts";
 
 type UserProps = {
     user: IUserWithTokens;

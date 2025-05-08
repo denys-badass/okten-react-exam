@@ -1,9 +1,8 @@
 import {useEffect, useRef} from "react";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import * as React from "react";
-import {IoSearch} from "react-icons/io5";
 
-export const SearchInput = () => {
+export const useSearchHandler = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const [query] = useSearchParams({query: ''})
@@ -25,16 +24,8 @@ export const SearchInput = () => {
         }
     }
 
-    return (
-        <div className='relative'>
-            <input
-                ref={inputRef}
-                type='text'
-                placeholder='Search...'
-                onKeyDown={handleKeyDown}
-                className='bg-slate-50 rounded-3xl px-3 py-2 font-normal'
-            />
-            <IoSearch className='absolute top-1/4 right-5 text-xl text-gray-500' />
-        </div>
-    );
+    return {
+        inputRef,
+        handleKeyDown,
+    };
 };

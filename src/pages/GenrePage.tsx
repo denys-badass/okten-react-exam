@@ -8,7 +8,7 @@ import {useLoadingClearParams} from "../hooks/useLoadingClearParams.ts";
 
 export const GenrePage = () => {
     const {genreId = '0'} = useParams();
-    const genreName = useAppSelector(state => state.genreStore.genres[+genreId]);
+    const genreName = useAppSelector(state => state.genreStore.genresMap[+genreId]);
     const {isLoading, params} = useLoadingClearParams({clearParams: ['query'], extraParams: {with_genres: genreId}})
 
     return (
