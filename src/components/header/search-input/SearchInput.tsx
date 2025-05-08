@@ -1,5 +1,5 @@
 import {IoSearch} from "react-icons/io5";
-import {useSearchHandler} from "./useSearchHandler.tsx";
+import {useSearchHandler} from "./useSearchHandler.ts";
 
 export const SearchInput = () => {
     const {inputRef, handleKeyDown} = useSearchHandler();

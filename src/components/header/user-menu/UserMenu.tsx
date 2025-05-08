@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {IUserWithTokens} from "../../../models/IUserWithTokens.ts";
 import {UserAvatar} from "../user-avatar/UserAvatar.tsx";
-import {useUserMenu} from "./useUserMenu.tsx";
+import {useUserMenu} from "./useUserMenu.ts";
 
 
 type UserMenuProps = {

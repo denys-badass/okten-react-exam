@@ -1,7 +1,7 @@
 import {FC, ReactNode} from "react";
-import {useAppSelector} from "../../redux/hooks/useAppSelector.ts";
+import {useAppSelector} from "../redux/hooks/useAppSelector.ts";
 import {Navigate} from "react-router-dom";
-import {Preloader} from "../preloader/Preloader.tsx";
+import {Preloader} from "../components/preloader/Preloader.tsx";
 
 type LoginRouteProps = {
     children: ReactNode;
