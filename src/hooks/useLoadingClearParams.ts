@@ -1,35 +1,31 @@
-import {useEffect, useMemo, useRef} from 'react';
+import {useEffect} from 'react';
 import {useAppSelector} from "../redux/hooks/useAppSelector.ts";
 import {useSearchParams} from "react-router-dom";
 import {useMovieParams} from "./useMovieParams.ts";
 
 export const useLoadingClearParams = (
-    pageConfig: {
+    config: {
         clearParams?: string[],
-        extraParams?: Record<string, string>
+        extraParams?: Record<string, string>,
+        defaultParams?: Record<string, string>,
     }
 ) => {
     const { isLoading } = useAppSelector((state) => state.movieStore);
-    const [query, setQuery] = useSearchParams();
-    const params = useMovieParams();
-    const stableExtraParams = useMemo(() => pageConfig.extraParams, [pageConfig.extraParams]);
-    const stableClearParams = useMemo(() => pageConfig.clearParams, [pageConfig.clearParams]);
-
-    const prevQueryRef = useRef(query);
+    const [, setSearchParams] = useSearchParams();
+    const params = useMovieParams(config);
 
     useEffect(() => {
-        if (prevQueryRef.current !== query) {
-            const newQuery = new URLSearchParams(query);
-            stableClearParams?.forEach((key) => newQuery.delete(key));
-            if (stableExtraParams) {
-                Object.entries(stableExtraParams).forEach(([key, value]) => {
-                    newQuery.set(key, value);
-                });
-            }
-            setQuery(newQuery);
-            prevQueryRef.current = query;
+        const current = new URLSearchParams(window.location.search); // <--- додали це
+        const newParams = new URLSearchParams();
+
+        Object.entries(params).forEach(([key, value]) => {
+            newParams.set(key, value);
+        });
+
+        if (current.toString() !== newParams.toString()) {
+            setSearchParams(newParams);
         }
-    }, [query, setQuery, stableExtraParams, stableClearParams]);
+    }, [params, setSearchParams]);
 
     return { isLoading, params };
 };
